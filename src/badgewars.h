@@ -7,7 +7,7 @@
 #define BW_QUEUE_SIZE 4096
 
 /* Size of a single cell in the core */
-typedef long CELL;
+typedef int CELL;
 
 /* Size of a "pointer" to a location in the core */
 typedef short CELLPTR;
