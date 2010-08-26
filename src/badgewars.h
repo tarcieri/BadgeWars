@@ -20,7 +20,6 @@ struct bw_world {
 };
 
 enum OP {
-  OP_NOP, /* no operation: don't do anything */
   OP_DAT, /* data: kills the process */
   OP_MOV, /* move: copies data from one address to another */
   OP_ADD, /* add: adds one number to another */
@@ -37,6 +36,7 @@ enum OP {
   OP_SEQ, /* skip if equal: if two instructions are equal, skip the next */
   OP_SNE, /* skip if not equal: like above, but with the opposite semantics */
   OP_SLT, /* skip if lower than: like above, but compare two values */
+  OP_NOP, /* no operation: don't do anything */
   OP_OPN, /* open: create a connection to another badge */
   OP_RSW, /* remote store word: store a word on a remote badge */
   OP_RFW, /* remote fetch word: store a remote word at the given location */ 
