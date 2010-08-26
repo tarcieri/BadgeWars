@@ -1,2 +1,3 @@
-badgewars.a
 **/*.o
+badgewars.a
+bwserver
