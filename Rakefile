@@ -8,8 +8,8 @@ warning_args = warnings.map { |w| "-W#{w}" }.join(' ')
 compiler = "gcc #{includes} -ansi -pedantic #{warning_args}"
 ar = "ar rcs"
 
-# Object files to build
-objects = Dir["src/*.c"].map { |f| f.sub(/.c$/, '.o') }
+lib_sources = Dir["src/*.c"] - %w(src/bwserver.c)
+objects = lib_sources.map { |f| f.sub(/.c$/, '.o') }
 
 objects.each do |object|
   src = object.sub(/.o$/, '.c')
@@ -19,16 +19,18 @@ objects.each do |object|
 end
 
 file "badgewars.a" => objects do
-  sh "#{ar} badgewars.a #{objects}"
+  sh "#{ar} badgewars.a #{objects.join(' ')}"
 end
 
-file "test/bw_testrunner" => "badgewars.a" do
-  sh "#{compiler} -o test/bw_testrunner test/bw_testrunner.c badgewars.a"
+file "bwserver" => "badgewars.a" do
+  sh "#{compiler} -o bwserver src/bwserver.c badgewars.a"
 end
 
-task :test => "test/bw_testrunner" do
-  sh "test/bw_testrunner"
+task :start_bwserver => "bwserver" do
+  sh "./bwserver"
 end
+
+task :test => :start_bwserver
 
 CLEAN.include 'badgewars.a'
 CLEAN.include '**/*.o'
