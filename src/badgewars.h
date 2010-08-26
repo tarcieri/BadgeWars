@@ -6,14 +6,11 @@
 #define BW_CORE_SIZE  8192
 #define BW_QUEUE_SIZE 4096
 
-/* Size of a single cell in the core */
+/* Size of a single cell in the core (should be a 32-bit type) */
 typedef int CELL;
 
-/* Size of a "pointer" to a location in the core */
+/* Size of a "pointer" to a location in the core (should be a 16-bit type) */
 typedef short CELLPTR;
-
-/* Opaque identifier representing a return badge address */
-typedef short BW_ADDR;
 
 /* Structure of the BadgeWars world */
 struct bw_world {
@@ -62,4 +59,4 @@ void bw_init(struct bw_world *world);
 void bw_run(struct bw_world *world);
 
 /* Receive a BadgeWars command from the outside world */
-void bw_receive(struct bw_world *world, OPCODE command, BW_ADDR addr);
+void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_response)(int, void *));
