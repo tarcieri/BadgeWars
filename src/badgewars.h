@@ -62,4 +62,4 @@ void bw_init(struct bw_world *world);
 void bw_run(struct bw_world *world);
 
 /* Receive a BadgeWars command from the outside world */
-/*void bw_receive(struct bm_world *world, OPCODE command, BW_ADDR addr);*/
+void bw_receive(struct bw_world *world, OPCODE command, BW_ADDR addr);
