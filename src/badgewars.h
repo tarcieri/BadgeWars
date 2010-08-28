@@ -4,7 +4,7 @@
  
 /* Total number of cells in the core */
 #define BW_CORE_SIZE  8192
-#define BW_QUEUE_SIZE 4096
+#define BW_QUEUE_SIZE 1024
 
 /* Size of a single cell in the core (should be a 32-bit type) */
 typedef int CELL;
