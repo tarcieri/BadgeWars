@@ -26,11 +26,11 @@ enum OP {
     OP_SUB, /* subtract: subtracts one number from another */
     OP_MUL, /* multiply: multiplies one number with another */
     OP_DIV, /* divide: divides one number with another */
-    OP_MOD, /* modulus: divides one number with another, storing the remainder */
+    OP_MOD, /* modulus: divides one number with another. stores the remainder */
     OP_JMP, /* jump: contines execution at the given address */
     OP_JMZ, /* jump if zero: tests a number and jumps if it's 0 */
     OP_JMN, /* jump if nonzero: tests a number and jumps if it isn't 0 */
-    OP_DJN, /* decrement and jump if nonzero: like above, but subtract 1 first */
+    OP_DJN, /* decrement and jump if nonzero: like above but subtract 1 first */
     OP_SPL, /* split: start a new process at the given address */
     OP_CMP, /* compare: same as SEQ. See below */
     OP_SEQ, /* skip if equal: if two instructions are equal, skip the next */
