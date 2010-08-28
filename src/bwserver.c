@@ -25,11 +25,11 @@ int main(int argc, char **argv)
 
 int create_udp_listener(long addr, int port)
 {
-	int sock;
+    int sock;
     struct sockaddr_in servaddr;
     socklen_t len;
     
-	sock = socket(AF_INET, SOCK_DGRAM, 0);
+    sock = socket(AF_INET, SOCK_DGRAM, 0);
     
     len = sizeof(servaddr);
     memset(&servaddr, 0, len);
@@ -39,4 +39,9 @@ int create_udp_listener(long addr, int port)
     bind(sock, (struct sockaddr *)&servaddr, len);
     
     return sock;
+}
+
+int io_wait(listener)
+{
+    
 }
