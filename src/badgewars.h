@@ -56,7 +56,7 @@ typedef struct opcode {
 void bw_init(struct bw_world *world);
  
 /* Run the BadgeWars world for a single instruction */
-void bw_run(struct bw_world *world);
+int bw_run(struct bw_world *world);
 
 /* Receive a BadgeWars command from the outside world */
 void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_response)(int, void *));
