@@ -11,7 +11,12 @@ void bw_init(struct bw_world *world)
 /* Run the BadgeWars world for a single instruction */
 int bw_run(struct bw_world *world)
 {
-    return 0;
+    /*CELLPTR addr;*/
+    
+    if(world->queue_head == world->queue_tail)
+        return 0;
+        
+    return 1;
 }
 
 /* Receive a BadgeWars command from the outside world */
@@ -29,4 +34,11 @@ CELL bw_peek(struct bw_world *world, CELLPTR addr)
 void bw_poke(struct bw_world *world, CELLPTR addr, CELL value)
 {
     world->core[addr % BW_CORE_SIZE] = value;
+}
+
+/* Add a new process to the queue */
+void bw_spawn(struct bw_world *world, CELLPTR addr)
+{
+    world->queue[world->queue_tail] = addr;
+    world->queue_tail = (world->queue_tail + 1) % BW_QUEUE_SIZE;
 }

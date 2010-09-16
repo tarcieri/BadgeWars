@@ -22,4 +22,12 @@ describe 'BadgeWars' do
     @world[0] = 420
     @world[0].should == 420
   end
+  
+  it "implements the MOV instruction" do
+    @world[0].should be_zero
+    @world[1].should be_zero
+    
+    @world[0] = BadgeWars::Op[:mov, 0, 1]
+    @world.spawn 0
+  end
 end

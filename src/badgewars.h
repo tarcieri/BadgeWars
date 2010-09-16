@@ -16,7 +16,7 @@ typedef short CELLPTR;
 struct bw_world {
     CELL core[BW_CORE_SIZE];
     CELLPTR queue[BW_QUEUE_SIZE];
-    CELLPTR *queue_head, *queue_tail;
+    int queue_head, queue_tail;
 };
 
 enum OP {
@@ -63,3 +63,9 @@ void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_r
 
 /* Peek into the core state */
 CELL bw_peek(struct bw_world *world, CELLPTR addr);
+
+/* Modify the core state */
+void bw_poke(struct bw_world *world, CELLPTR addr, CELL value);
+
+/* Add a new process to the queue */
+void bw_spawn(struct bw_world *world, CELLPTR addr);
