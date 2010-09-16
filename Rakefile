@@ -1,6 +1,11 @@
+require 'rake'
 require 'rake/clean'
 
-task :default => :test
+task :default => ['badgewars.a', :ext]
+
+#
+# BadgeWars core library
+#
 
 includes = %w(-Isrc)
 warnings = %w(error all shadow pointer-arith cast-qual strict-prototypes strict-overflow=5)
@@ -19,15 +24,27 @@ file "badgewars.a" => objects do
   sh "#{ar} badgewars.a #{objects.join(' ')}"
 end
 
-file "bwserver" => "badgewars.a" do
-  sh "#{compiler} -o bwserver src/bwserver.c badgewars.a"
+#
+# BadgeWars Ruby extension
+#
+
+ext_so = "ext/badgewars.#{Config::CONFIG['DLEXT']}"
+ext_files = FileList[
+  'ext/*.c',
+  'ext/*.h',
+  'ext/extconf.rb',
+  'ext/Makefile'
+]
+
+file 'ext/Makefile' => 'ext/extconf.rb' do
+  Dir.chdir('ext') { ruby 'extconf.rb' }
 end
 
-task :start_bwserver => "bwserver" do
-  sh "./bwserver"
+file ext_so => ext_files do
+  Dir.chdir('ext') { sh 'make' }
 end
 
-task :test => :start_bwserver
+task :ext => ext_so
 
 CLEAN.include 'badgewars.a'
 CLEAN.include '**/*.o'
