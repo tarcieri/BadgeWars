@@ -27,6 +27,30 @@ void Init_badgewars()
     
     rb_define_method(cBadgeWarsWorld, "poke", BadgeWarsWorld_poke, 2);
     rb_define_method(cBadgeWarsWorld, "[]=", BadgeWarsWorld_poke, 2);
+    
+    /* Opcodes */
+    rb_define_const(mBadgeWars, "OP_DAT", INT2NUM(OP_DAT));
+    rb_define_const(mBadgeWars, "OP_MOV", INT2NUM(OP_MOV));
+    rb_define_const(mBadgeWars, "OP_ADD", INT2NUM(OP_ADD));
+    rb_define_const(mBadgeWars, "OP_SUB", INT2NUM(OP_SUB));
+    rb_define_const(mBadgeWars, "OP_MUL", INT2NUM(OP_MUL));
+    rb_define_const(mBadgeWars, "OP_DIV", INT2NUM(OP_DIV));
+    rb_define_const(mBadgeWars, "OP_MOD", INT2NUM(OP_MOD));
+    rb_define_const(mBadgeWars, "OP_JMP", INT2NUM(OP_JMP));
+    rb_define_const(mBadgeWars, "OP_JMZ", INT2NUM(OP_JMZ));
+    rb_define_const(mBadgeWars, "OP_JMN", INT2NUM(OP_JMN));
+    rb_define_const(mBadgeWars, "OP_DJN", INT2NUM(OP_DJN));
+    rb_define_const(mBadgeWars, "OP_SPL", INT2NUM(OP_SPL));
+    rb_define_const(mBadgeWars, "OP_CMP", INT2NUM(OP_CMP));
+    rb_define_const(mBadgeWars, "OP_SEQ", INT2NUM(OP_SEQ));
+    rb_define_const(mBadgeWars, "OP_SNE", INT2NUM(OP_SNE));
+    rb_define_const(mBadgeWars, "OP_SLT", INT2NUM(OP_SLT));
+    rb_define_const(mBadgeWars, "OP_NOP", INT2NUM(OP_NOP));
+    rb_define_const(mBadgeWars, "OP_OPN", INT2NUM(OP_OPN));
+    rb_define_const(mBadgeWars, "OP_RSW", INT2NUM(OP_RSW));
+    rb_define_const(mBadgeWars, "OP_RFW", INT2NUM(OP_RFW));
+    rb_define_const(mBadgeWars, "OP_RSP", INT2NUM(OP_RSP));
+    rb_define_const(mBadgeWars, "OP_CLS", INT2NUM(OP_CLS));
 }
 
 static VALUE BadgeWars_core_size(VALUE self)
