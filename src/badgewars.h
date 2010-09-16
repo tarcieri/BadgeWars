@@ -60,3 +60,6 @@ int bw_run(struct bw_world *world);
 
 /* Receive a BadgeWars command from the outside world */
 void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_response)(int, void *));
+
+/* Peek into the core state */
+CELL bw_peek(struct bw_world *world, CELLPTR addr);

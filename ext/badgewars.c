@@ -4,16 +4,34 @@
 static VALUE mBadgeWars = Qnil;
 static VALUE cBadgeWarsWorld = Qnil;
 
+static VALUE BadgeWars_core_size(VALUE self);
+static VALUE BadgeWars_world_size(VALUE self);
+
 static VALUE BadgeWarsWorld_allocate(VALUE klass);
 static void BadgeWarsWorld_mark(struct bw_world *world);
 static void BadgeWarsWorld_free(struct bw_world *world);
 
+static VALUE BadgeWarsWorld_peek(VALUE self, VALUE addr);
+
 void Init_badgewars()
 {
     mBadgeWars = rb_define_module("BadgeWars");
-    cBadgeWarsWorld = rb_define_class_under(mBadgeWars, "World", rb_cObject);
+    rb_define_singleton_method(mBadgeWars, "core_size", BadgeWars_core_size, 0);
+    rb_define_singleton_method(mBadgeWars, "world_size", BadgeWars_world_size, 0);
     
+    cBadgeWarsWorld = rb_define_class_under(mBadgeWars, "World", rb_cObject);
     rb_define_alloc_func(cBadgeWarsWorld, BadgeWarsWorld_allocate);
+    rb_define_method(cBadgeWarsWorld, "peek", BadgeWarsWorld_peek, 1);
+}
+
+static VALUE BadgeWars_core_size(VALUE self)
+{
+    return INT2NUM(BW_CORE_SIZE);
+}
+
+static VALUE BadgeWars_world_size(VALUE self)
+{
+    return INT2NUM(sizeof(struct bw_world));
 }
 
 static VALUE BadgeWarsWorld_allocate(VALUE klass)
@@ -31,4 +49,12 @@ static void BadgeWarsWorld_mark(struct bw_world *world)
 static void BadgeWarsWorld_free(struct bw_world *world)
 {
     xfree(world);
+}
+
+static VALUE BadgeWarsWorld_peek(VALUE self, VALUE addr)
+{
+    struct bw_world *world;
+    
+    Data_Get_Struct(self, struct bw_world, world);
+    return INT2NUM(bw_peek(world, NUM2INT(addr)));
 }

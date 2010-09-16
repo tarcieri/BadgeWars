@@ -19,3 +19,10 @@ void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_r
 {
     printf("bw_receive got op: %d\n", command.op);
 }
+
+/* Peek into the core state */
+CELL bw_peek(struct bw_world *world, CELLPTR addr)
+{
+    printf("bw_peek(%d) called\n", addr);
+    return 0;
+}
