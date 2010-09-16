@@ -1,7 +1,9 @@
 require 'rake'
 require 'rake/clean'
 
-task :default => ['badgewars.a', :ext]
+Dir['tasks/**/*.rake'].each { |task| load task }
+
+task :default => :spec
 
 #
 # BadgeWars core library
@@ -12,6 +14,7 @@ warnings = %w(error all shadow pointer-arith cast-qual strict-prototypes strict-
 warning_args = warnings.map { |w| "-W#{w}" }.join(' ')
 compiler = "gcc #{includes} -ansi -pedantic #{warning_args}"
 ar = "ar rcs"
+library = 'badgewars.a'
 
 lib_sources = Dir["src/*.c"] - %w(src/bwserver.c)
 objects = lib_sources.map { |f| f.sub(/.c$/, '.o') }
@@ -20,8 +23,8 @@ rule '.o' => '.c' do |t|
   sh "#{compiler} -c -o #{t.name} #{t.source}"
 end
 
-file "badgewars.a" => objects do
-  sh "#{ar} badgewars.a #{objects.join(' ')}"
+file library => objects do
+  sh "#{ar} #{library} #{objects.join(' ')}"
 end
 
 #
@@ -40,11 +43,38 @@ file 'ext/Makefile' => 'ext/extconf.rb' do
   Dir.chdir('ext') { ruby 'extconf.rb' }
 end
 
-file ext_so => ext_files do
+file ext_so => [library, *ext_files] do
   Dir.chdir('ext') { sh 'make' }
 end
 
 task :ext => ext_so
 
-CLEAN.include 'badgewars.a'
+#
+# RSpec
+#
+
+begin
+  require 'spec/rake/spectask'
+
+  FILES = Dir['spec/*_spec.rb']
+
+  desc "Run the BadgeWars RSpecs"
+  Spec::Rake::SpecTask.new(:spec) do |t|
+    t.spec_opts = %w(-fs -c)
+    t.spec_files = FILES
+  end
+rescue LoadError
+  task :spec do
+    puts "Run 'gem install rspec' to be able to run the BadeWars specs"
+  end
+end
+
+Rake::Task[:spec].enhance [:ext]
+
+#
+# Clean
+#
+
+CLEAN.include library
+CLEAN.include ext_so
 CLEAN.include '**/*.o'
