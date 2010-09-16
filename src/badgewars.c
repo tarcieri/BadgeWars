@@ -22,5 +22,11 @@ void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_r
 /* Peek into the core state */
 CELL bw_peek(struct bw_world *world, CELLPTR addr)
 {
-    return world->core[addr];
+    return world->core[addr % BW_CORE_SIZE];
+}
+
+/* Modify the core state */
+void bw_poke(struct bw_world *world, CELLPTR addr, CELL value)
+{
+    world->core[addr % BW_CORE_SIZE] = value;
 }
