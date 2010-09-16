@@ -11,11 +11,8 @@ ar = "ar rcs"
 lib_sources = Dir["src/*.c"] - %w(src/bwserver.c)
 objects = lib_sources.map { |f| f.sub(/.c$/, '.o') }
 
-objects.each do |object|
-  src = object.sub(/.o$/, '.c')
-  file object => src do
-    sh "#{compiler} -c -o #{object} #{src}"
-  end
+rule '.o' => '.c' do |t|
+  sh "#{compiler} -c -o #{t.name} #{t.source}"
 end
 
 file "badgewars.a" => objects do
