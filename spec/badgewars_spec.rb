@@ -12,7 +12,7 @@ describe 'BadgeWars' do
     end
   end
   
-  it "can poke memory" do
+  it "can peek and poke the core" do
     @world.peek(0).should be_zero
     @world[0].should be_zero
     
