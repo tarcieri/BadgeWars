@@ -7,8 +7,8 @@ describe 'BadgeWars' do
   
   it "has a default world state of 0" do
     BadgeWars.core_size.times do |n|
-      @world.peek(n).should be_zero
-      @world[n].should be_zero
+      @world.peek(n).raw.should == "\0\0\0\0"
+      @world[n].raw.should == "\0\0\0\0"
     end
   end
   
@@ -23,11 +23,15 @@ describe 'BadgeWars' do
     @world[0].should == 420
   end
   
-  it "implements the MOV instruction" do
+  it "implements the MOV instruction (i.e. imps work)" do
     @world[0].should be_zero
     @world[1].should be_zero
     
-    @world[0] = BadgeWars::Op[:mov, 0, 1]
+    imp = BadgeWars::Op[:mov, 0, 1]
+    @world[0] = imp
     @world.spawn 0
+    @world.run
+    
+    @world[1].should == imp
   end
 end

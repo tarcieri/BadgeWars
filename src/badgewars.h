@@ -6,11 +6,16 @@
 #define BW_CORE_SIZE  8192
 #define BW_QUEUE_SIZE 1024
 
-/* Size of a single cell in the core (should be a 32-bit type) */
-typedef int CELL;
+/* Opcode definition (opcodes fit inside of CELLs) */
+typedef struct bw_opcode {
+    unsigned int op:   6; /* Operation to perform */  
+    unsigned int mode: 4; /* Addressing mode */
+    unsigned int lhs: 11; /* Left-hand operand */
+    unsigned int rhs: 11; /* Right-hand operand */
+} CELL;
 
 /* Size of a "pointer" to a location in the core (should be a 16-bit type) */
-typedef short CELLPTR;
+typedef unsigned short CELLPTR;
 
 /* Structure of the BadgeWars world */
 struct bw_world {
@@ -44,14 +49,6 @@ enum OP {
     OP_CLS  /* close: close the connection to a remote badge */
 };
 
-/* Opcode definition (opcodes fit inside of CELLs) */
-typedef struct opcode {
-    unsigned int op:   6; /* Operation to perform */  
-    unsigned int mode: 4; /* Addressing mode */
-    unsigned int lhs: 11; /* Left-hand operand */
-    unsigned int rhs: 11; /* Right-hand operand */
-} OPCODE;
-
 /* Initialize the BadgeWars world */
 void bw_init(struct bw_world *world);
  
@@ -59,10 +56,10 @@ void bw_init(struct bw_world *world);
 int bw_run(struct bw_world *world);
 
 /* Receive a BadgeWars command from the outside world */
-void bw_receive(struct bw_world *world, OPCODE command, void *addr, void(*send_response)(int, void *));
+void bw_receive(struct bw_world *world, CELL command, void *addr, void(*send_response)(int, void *));
 
 /* Peek into the core state */
-CELL bw_peek(struct bw_world *world, CELLPTR addr);
+CELL *bw_peek(struct bw_world *world, CELLPTR addr);
 
 /* Modify the core state */
 void bw_poke(struct bw_world *world, CELLPTR addr, CELL value);
