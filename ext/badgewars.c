@@ -17,6 +17,7 @@ static VALUE BadgeWarsOp_mode(VALUE self);
 static VALUE BadgeWarsOp_lhs(VALUE self);
 static VALUE BadgeWarsOp_rhs(VALUE self);
 static VALUE BadgeWarsOp_raw(VALUE self);
+static VALUE BadgeWarsOp_inspect(VALUE self);
 static VALUE BadgeWarsOp_eql(VALUE self, VALUE op);
 
 static VALUE BadgeWarsWorld_allocate(VALUE klass);
@@ -42,6 +43,7 @@ void Init_badgewars()
     rb_define_method(cBadgeWarsOp, "lhs", BadgeWarsOp_lhs, 0);
     rb_define_method(cBadgeWarsOp, "rhs", BadgeWarsOp_rhs, 0);
     rb_define_method(cBadgeWarsOp, "raw", BadgeWarsOp_raw, 0);
+    rb_define_method(cBadgeWarsOp, "inspect", BadgeWarsOp_inspect, 0);
     rb_define_method(cBadgeWarsOp, "eql?", BadgeWarsOp_eql, 1);
     
     /* Opcodes */
@@ -152,6 +154,37 @@ static VALUE BadgeWarsOp_raw(VALUE self)
     Data_Get_Struct(self, struct bw_opcode, opcode);
     
     return rb_str_new((char *)opcode, 4);
+}
+
+static VALUE BadgeWarsOp_inspect(VALUE self)
+{
+    VALUE str;
+    CELL *opcode;
+    
+    const char *cname = rb_class2name(rb_obj_class(self));
+    Data_Get_Struct(self, struct bw_opcode, opcode);
+    
+    str = rb_str_new2("#<");
+    rb_str_cat2(str, cname);
+    rb_str_cat2(str, " ");
+    
+    rb_str_cat2(str, "op=0x");
+    rb_str_append(str, rb_funcall(INT2NUM(opcode->op), rb_intern("to_s"), 1, INT2NUM(16)));
+    rb_str_cat2(str, " ");
+    
+    rb_str_cat2(str, "mode=");
+    rb_str_append(str, rb_inspect(INT2NUM(opcode->mode)));
+    rb_str_cat2(str, " ");
+    
+    rb_str_cat2(str, "lhs=0x");
+    rb_str_append(str, rb_funcall(INT2NUM(opcode->lhs), rb_intern("to_s"), 1, INT2NUM(16)));
+    rb_str_cat2(str, " ");
+
+    rb_str_cat2(str, "rhs=0x");
+    rb_str_append(str, rb_funcall(INT2NUM(opcode->rhs), rb_intern("to_s"), 1, INT2NUM(16)));
+    rb_str_cat2(str, ">");
+    
+    return str;       
 }
 
 static VALUE BadgeWarsOp_eql(VALUE self, VALUE op)
