@@ -33,5 +33,9 @@ describe 'BadgeWars' do
     @world.run
     
     @world[1].should be_eql(imp)
+    @world[2].raw.should == "\0\0\0\0"
+    @world.run
+    
+    @world[2].should be_eql(imp)
   end
 end
