@@ -29,14 +29,20 @@ int bw_run(struct bw_world *world)
     opcode = (CELL *)&world->core[addr];
     printf("*** bw_run -- op: 0x%x mode: %x lhs: 0x%x rhs: 0x%x\n", opcode->op, opcode->mode, opcode->lhs, opcode->rhs);
     
+    lhs = MODC(world->queue_head + opcode->lhs);
+    rhs = MODC(world->queue_head + opcode->rhs);
+    
     switch(opcode->op) {
         case OP_DAT:
             /* Executing the DAT instruction terminates the current task */
             continue_task = 0;
+            break;
         case OP_MOV:
-            lhs = MODC(world->queue_head + opcode->lhs);
-            rhs = MODC(world->queue_head + opcode->rhs);
             memcpy(&world->core[rhs], &world->core[lhs], sizeof(CELL));
+            break;
+        case OP_ADD:
+            world->core[rhs].lhs = MODC(world->core[rhs].lhs + world->core[lhs].lhs);
+            world->core[rhs].rhs = MODC(world->core[rhs].rhs + world->core[lhs].rhs);
             break;
     }
     

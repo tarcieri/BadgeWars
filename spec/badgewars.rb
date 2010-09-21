@@ -1,7 +1,7 @@
 require File.expand_path('../../ext/badgewars', __FILE__)
 
 class << BadgeWars::Op
-  def [](op, lhs = 0, rhs = 0)
+  def [](op, lhs = 0, rhs = 0)    
     case op
     when Symbol
       op = BadgeWars::Op.const_get(op.to_s.upcase)

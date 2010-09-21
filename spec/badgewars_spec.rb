@@ -38,4 +38,13 @@ describe 'BadgeWars' do
     
     @world[2].should be_eql(imp)
   end
+  
+  it "implements the ADD instruction" do
+    @world[0] = BadgeWars::Op[:add, 0, 1]
+    @world[1] = BadgeWars::Op[:dat, 1, 2]
+    @world.spawn 0
+    @world.run
+
+    @world[1].should be_eql(BadgeWars::Op[:dat, 1, 3])
+  end
 end

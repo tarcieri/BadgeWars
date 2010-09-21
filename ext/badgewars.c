@@ -112,7 +112,8 @@ static VALUE BadgeWarsOp_initialize(VALUE self, VALUE op, VALUE lhs, VALUE rhs)
 {
     CELL *opcode;
     Data_Get_Struct(self, struct bw_opcode, opcode);
-    opcode->op = NUM2INT(op) & 0x15;
+    
+    opcode->op = NUM2INT(op) & 0x3F;
     opcode->mode = 0;
     opcode->lhs = NUM2INT(lhs) & 0x7FF;
     opcode->rhs = NUM2INT(rhs) & 0x7FF;
