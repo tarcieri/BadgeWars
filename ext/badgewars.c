@@ -97,6 +97,7 @@ static VALUE BadgeWarsOp_allocate(VALUE klass)
 
 static void BadgeWarsOp_mark(CELL *cell)
 {
+    /* This function intentionally left blank */
 }
 
 static void BadgeWarsOp_free(CELL *cell)
@@ -179,6 +180,7 @@ static VALUE BadgeWarsWorld_allocate(VALUE klass)
 
 static void BadgeWarsWorld_mark(struct bw_world *world)
 {
+    /* This function intentionally left blank */
 }
 
 static void BadgeWarsWorld_free(struct bw_world *world)
