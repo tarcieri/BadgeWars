@@ -18,7 +18,7 @@ void bw_init(struct bw_world *world)
 /* Run the BadgeWars world for a single instruction */
 int bw_run(struct bw_world *world)
 {
-    unsigned int lhs, rhs;
+    unsigned int lhs, rhs, continue_task = 1;
     CELLPTR addr;
     CELL *opcode;
     
@@ -30,6 +30,9 @@ int bw_run(struct bw_world *world)
     printf("*** bw_run -- op: 0x%x mode: %x lhs: 0x%x rhs: 0x%x\n", opcode->op, opcode->mode, opcode->lhs, opcode->rhs);
     
     switch(opcode->op) {
+        case OP_DAT:
+            /* Executing the DAT instruction terminates the current task */
+            continue_task = 0;
         case OP_MOV:
             lhs = MODC(world->queue_head + opcode->lhs);
             rhs = MODC(world->queue_head + opcode->rhs);
@@ -37,7 +40,13 @@ int bw_run(struct bw_world *world)
             break;
     }
     
-    world->queue_head = MODQ(world->queue_head + 1);    
+    /* If we should continue this task, add a new entry to the task queue at
+       at the next instruction after this one */
+    if(continue_task)
+        bw_spawn(world, MODC(addr + 1));
+        
+    world->queue_head = MODQ(world->queue_head + 1);
+    
     return 1;
 }
 
