@@ -13,14 +13,14 @@ describe 'BadgeWars' do
   end
   
   it "can peek and poke the core" do
-    @world.peek(0).should be_zero
-    @world[0].should be_zero
+    @world.peek(0).raw.should == "\0\0\0\0"
+    @world[0].raw.should == "\0\0\0\0"
     
-    @world.poke(0, 42)
-    @world.peek(0).should == 42
+    @world.poke(0, BadgeWars::Op[:mov, 42, 420])
+    @world.peek(0).should be_eql(BadgeWars::Op[:mov, 42, 420])
     
-    @world[0] = 420
-    @world[0].should == 420
+    @world[0] = BadgeWars::Op[:mov, 42, 420]
+    @world[0].should be_eql(BadgeWars::Op[:mov, 42, 420])
   end
   
   it "implements the MOV instruction (i.e. imps work)" do

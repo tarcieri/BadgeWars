@@ -41,6 +41,7 @@ void Init_badgewars()
     rb_define_method(cBadgeWarsOp, "lhs", BadgeWarsOp_lhs, 0);
     rb_define_method(cBadgeWarsOp, "rhs", BadgeWarsOp_rhs, 0);
     rb_define_method(cBadgeWarsOp, "raw", BadgeWarsOp_raw, 0);
+    rb_define_method(cBadgeWarsOp, "eql?", BadgeWarsOp_raw, 1);
     
     /* Opcodes */
     rb_define_const(cBadgeWarsOp, "DAT", INT2NUM(OP_DAT));
@@ -149,6 +150,23 @@ static VALUE BadgeWarsOp_raw(VALUE self)
     Data_Get_Struct(self, struct bw_opcode, opcode);
     
     return rb_str_new((char *)opcode, 4);
+}
+
+static VALUE BadgeWarsOp_eql(VALUE self, VALUE op)
+{
+    CELL *left, *right;
+    Data_Get_Struct(self, struct bw_opcode, left);
+    Data_Get_Struct(op,   struct bw_opcode, right);
+    
+    if(left->op   == right->op &&
+       left->mode == right->mode &&
+       left->lhs  == right->lhs &&
+       left->rhs  == right->rhs)
+    {
+        return Qtrue;
+    } else {
+        return Qfalse;
+    }
 }
 
 static VALUE BadgeWarsWorld_allocate(VALUE klass)
