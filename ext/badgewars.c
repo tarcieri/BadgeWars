@@ -17,6 +17,7 @@ static VALUE BadgeWarsOp_mode(VALUE self);
 static VALUE BadgeWarsOp_lhs(VALUE self);
 static VALUE BadgeWarsOp_rhs(VALUE self);
 static VALUE BadgeWarsOp_raw(VALUE self);
+static VALUE BadgeWarsOp_eql(VALUE self, VALUE op);
 
 static VALUE BadgeWarsWorld_allocate(VALUE klass);
 static void BadgeWarsWorld_mark(struct bw_world *world);
@@ -41,7 +42,7 @@ void Init_badgewars()
     rb_define_method(cBadgeWarsOp, "lhs", BadgeWarsOp_lhs, 0);
     rb_define_method(cBadgeWarsOp, "rhs", BadgeWarsOp_rhs, 0);
     rb_define_method(cBadgeWarsOp, "raw", BadgeWarsOp_raw, 0);
-    rb_define_method(cBadgeWarsOp, "eql?", BadgeWarsOp_raw, 1);
+    rb_define_method(cBadgeWarsOp, "eql?", BadgeWarsOp_eql, 1);
     
     /* Opcodes */
     rb_define_const(cBadgeWarsOp, "DAT", INT2NUM(OP_DAT));

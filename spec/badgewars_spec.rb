@@ -24,14 +24,14 @@ describe 'BadgeWars' do
   end
   
   it "implements the MOV instruction (i.e. imps work)" do
-    @world[0].should be_zero
-    @world[1].should be_zero
+    @world[0].raw.should == "\0\0\0\0"
+    @world[1].raw.should == "\0\0\0\0"
     
     imp = BadgeWars::Op[:mov, 0, 1]
     @world[0] = imp
     @world.spawn 0
     @world.run
     
-    @world[1].should == imp
+    @world[1].should be_eql(imp)
   end
 end
