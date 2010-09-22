@@ -42,11 +42,6 @@ enum OP {
     OP_SNE, /* skip if not equal: like above, but with the opposite semantics */
     OP_SLT, /* skip if lower than: like above, but compare two values */
     OP_NOP, /* no operation: don't do anything */
-    OP_OPN, /* open: create a connection to another badge */
-    OP_RSW, /* remote store word: store a word on a remote badge */
-    OP_RFW, /* remote fetch word: store a remote word at the given location */ 
-    OP_RSP, /* remote split: like SPL, but start a process on a remote badge */
-    OP_CLS  /* close: close the connection to a remote badge */
 };
 
 /* Initialize the BadgeWars world */
