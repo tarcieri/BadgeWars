@@ -1,7 +1,7 @@
 BADGE WARS
 ==========
 
-*Assembly language meets battlebots*
+*Assembly language meets Battlebots*
 ------------------------------------
 
 Two warriors enter the arena. These warriors are not flesh and blood, they are
