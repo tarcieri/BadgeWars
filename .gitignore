@@ -1,3 +1,5 @@
 **/*.o
 badgewars.a
 bwserver
+ext/badgewars_ext.bundle
+ext/badgewars_ext.so

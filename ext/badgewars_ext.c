@@ -1,5 +1,5 @@
 #include "ruby.h"
-#include "../src/badgewars.h"
+#include "badgewars.h"
 
 static VALUE mBadgeWars = Qnil;
 static VALUE cBadgeWarsOp = Qnil;
@@ -29,7 +29,7 @@ static VALUE BadgeWarsWorld_poke(VALUE self, VALUE addr, VALUE value);
 static VALUE BadgeWarsWorld_run(VALUE self);
 static VALUE BadgeWarsWorld_spawn(VALUE self, VALUE addr);
 
-void Init_badgewars()
+void Init_badgewars_ext()
 {
     mBadgeWars = rb_define_module("BadgeWars");
     rb_define_singleton_method(mBadgeWars, "core_size", BadgeWars_core_size, 0);
@@ -59,16 +59,10 @@ void Init_badgewars()
     rb_define_const(cBadgeWarsOp, "JMN", INT2NUM(OP_JMN));
     rb_define_const(cBadgeWarsOp, "DJN", INT2NUM(OP_DJN));
     rb_define_const(cBadgeWarsOp, "SPL", INT2NUM(OP_SPL));
-    rb_define_const(cBadgeWarsOp, "CMP", INT2NUM(OP_CMP));
     rb_define_const(cBadgeWarsOp, "SEQ", INT2NUM(OP_SEQ));
     rb_define_const(cBadgeWarsOp, "SNE", INT2NUM(OP_SNE));
     rb_define_const(cBadgeWarsOp, "SLT", INT2NUM(OP_SLT));
     rb_define_const(cBadgeWarsOp, "NOP", INT2NUM(OP_NOP));
-    rb_define_const(cBadgeWarsOp, "OPN", INT2NUM(OP_OPN));
-    rb_define_const(cBadgeWarsOp, "RSW", INT2NUM(OP_RSW));
-    rb_define_const(cBadgeWarsOp, "RFW", INT2NUM(OP_RFW));
-    rb_define_const(cBadgeWarsOp, "RSP", INT2NUM(OP_RSP));
-    rb_define_const(cBadgeWarsOp, "CLS", INT2NUM(OP_CLS));
     
     cBadgeWarsWorld = rb_define_class_under(mBadgeWars, "World", rb_cObject);
     rb_define_alloc_func(cBadgeWarsWorld, BadgeWarsWorld_allocate);

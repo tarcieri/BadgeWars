@@ -8,10 +8,10 @@
 
 /* Opcode definition (opcodes fit inside of CELLs) */
 typedef struct bw_opcode {
-    unsigned int op:   6; /* Operation to perform */  
+    unsigned int op:   4; /* Operation to perform */  
     unsigned int mode: 4; /* Addressing mode */
-    unsigned int lhs: 11; /* Left-hand operand */
-    unsigned int rhs: 11; /* Right-hand operand */
+    unsigned int lhs:  8; /* Left-hand operand */
+    unsigned int rhs:  8; /* Right-hand operand */
 } CELL;
 
 /* Size of a "pointer" to a location in the core (should be a 16-bit type) */
@@ -37,12 +37,14 @@ enum OP {
     OP_JMN, /* jump if nonzero: tests a number and jumps if it isn't 0 */
     OP_DJN, /* decrement and jump if nonzero: like above but subtract 1 first */
     OP_SPL, /* split: start a new process at the given address */
-    OP_CMP, /* compare: same as SEQ. See below */
     OP_SEQ, /* skip if equal: if two instructions are equal, skip the next */
     OP_SNE, /* skip if not equal: like above, but with the opposite semantics */
     OP_SLT, /* skip if lower than: like above, but compare two values */
-    OP_NOP, /* no operation: don't do anything */
+    OP_NOP  /* no operation: don't do anything */
 };
+
+/* CMP is an alias for SEQ */
+#define OP_CMP OP_SEQ
 
 /* Initialize the BadgeWars world */
 void bw_init(struct bw_world *world);

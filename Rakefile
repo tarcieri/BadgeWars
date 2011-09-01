@@ -9,10 +9,10 @@ task :default => :spec
 # BadgeWars core library
 #
 
-includes = %w(-Isrc)
+includes = File.expand_path("../src", __FILE__)
 warnings = %w(error all shadow pointer-arith cast-qual strict-prototypes strict-overflow=5)
 warning_args = warnings.map { |w| "-W#{w}" }.join(' ')
-compiler = "gcc #{includes} -ansi -pedantic #{warning_args}"
+compiler = "gcc -I#{includes} -ansi -pedantic #{warning_args}"
 ar = "ar rcs"
 library = 'badgewars.a'
 
@@ -54,18 +54,13 @@ task :ext => ext_so
 #
 
 begin
-  require 'spec/rake/spectask'
-
-  FILES = Dir['spec/*_spec.rb']
+  require 'rspec/core/rake_task'
 
   desc "Run the BadgeWars RSpecs"
-  Spec::Rake::SpecTask.new(:spec) do |t|
-    t.spec_opts = %w(-fs -c)
-    t.spec_files = FILES
-  end
+  RSpec::Core::RakeTask.new
 rescue LoadError
   task :spec do
-    puts "Run 'gem install rspec' to be able to run the BadeWars specs"
+    puts "Run 'gem install rspec' to be able to run the BadgeWars specs"
   end
 end
 

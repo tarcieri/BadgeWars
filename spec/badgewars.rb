@@ -1,4 +1,4 @@
-require File.expand_path('../../ext/badgewars', __FILE__)
+require File.expand_path('../../ext/badgewars_ext', __FILE__)
 
 class << BadgeWars::Op
   def [](op, lhs = 0, rhs = 0)    
