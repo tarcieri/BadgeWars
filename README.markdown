@@ -6,8 +6,8 @@ BADGE WARS
 
 Two warriors enter the arena. These warriors are not flesh and blood, they are
 made out of a series of instructions written in a language called Redcode.
-The two must battle to the death. Only one will survive. The winner will go on
-to be king of the "core", the assembly language arena.
+It's a battle of bits to the death! Only one will survive. The winner will go on
+to be king of the core.
 
 BadgeWars is an implementation of [CoreWars](http://www.corewars.org), but a
 minified version intended for use on microcontrollers. Microcontrollers are
