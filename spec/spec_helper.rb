@@ -1,1 +1,3 @@
-require File.expand_path('../badgewars', __FILE__)
+$:.push File.expand_path('../../lib', __FILE__)
+
+require 'badgewars'

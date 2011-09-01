@@ -1,7 +1,6 @@
-require 'rake'
-require 'rake/clean'
-
-Dir['tasks/**/*.rake'].each { |task| load task }
+#!/usr/bin/env rake
+require "bundler/gem_tasks"
+require "rake/clean"
 
 task :default => :spec
 
