@@ -15,7 +15,7 @@ compiler = "gcc -I#{includes} -ansi -pedantic #{warning_args}"
 ar = "ar rcs"
 library = 'badgewars.a'
 
-lib_sources = Dir["src/*.c"] - %w(src/bwserver.c)
+lib_sources = Dir["src/*.c"]
 objects = lib_sources.map { |f| f.sub(/.c$/, '.o') }
 
 rule '.o' => '.c' do |t|
