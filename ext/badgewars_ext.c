@@ -26,7 +26,7 @@ static void BadgeWarsWorld_free(struct bw_world *world);
 
 static VALUE BadgeWarsWorld_peek(VALUE self, VALUE addr);
 static VALUE BadgeWarsWorld_poke(VALUE self, VALUE addr, VALUE value);
-static VALUE BadgeWarsWorld_run(VALUE self);
+static VALUE BadgeWarsWorld_step(VALUE self);
 static VALUE BadgeWarsWorld_spawn(VALUE self, VALUE addr);
 
 void Init_badgewars_ext()
@@ -70,7 +70,7 @@ void Init_badgewars_ext()
     rb_define_method(cBadgeWarsWorld, "poke", BadgeWarsWorld_poke, 2);
     rb_define_method(cBadgeWarsWorld, "[]", BadgeWarsWorld_peek, 1);
     rb_define_method(cBadgeWarsWorld, "[]=", BadgeWarsWorld_poke, 2);
-    rb_define_method(cBadgeWarsWorld, "run", BadgeWarsWorld_run, 0);
+    rb_define_method(cBadgeWarsWorld, "step", BadgeWarsWorld_step, 0);
     rb_define_method(cBadgeWarsWorld, "spawn", BadgeWarsWorld_spawn, 1);
 }
 
@@ -238,11 +238,11 @@ static VALUE BadgeWarsWorld_poke(VALUE self, VALUE addr, VALUE opcode)
     return Qnil;
 }
 
-static VALUE BadgeWarsWorld_run(VALUE self)
+static VALUE BadgeWarsWorld_step(VALUE self)
 {
     struct bw_world *world;
     Data_Get_Struct(self, struct bw_world, world);
-    return INT2NUM(bw_run(world));
+    return INT2NUM(bw_step(world));
 }
 
 static VALUE BadgeWarsWorld_spawn(VALUE self, VALUE addr)

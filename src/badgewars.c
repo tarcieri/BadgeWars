@@ -15,8 +15,8 @@ void bw_init(struct bw_world *world)
     world->queue_head = world->queue_tail = 0;
 }
 
-/* Run the BadgeWars world for a single instruction */
-int bw_run(struct bw_world *world)
+/* Tell the BadgeWars world to execute a single instruction */
+int bw_step(struct bw_world *world)
 {
     unsigned int lhs, rhs, continue_task = 1;
     CELLPTR addr;
@@ -54,11 +54,6 @@ int bw_run(struct bw_world *world)
     world->queue_head = MODQ(world->queue_head + 1);
     
     return 1;
-}
-
-/* Receive a BadgeWars command from the outside world */
-void bw_receive(struct bw_world *world, CELL command, void *addr, void(*send_response)(int, void *))
-{
 }
 
 /* Peek into the core state */
