@@ -30,7 +30,7 @@ end
 # BadgeWars Ruby extension
 #
 
-ext_so = "ext/badgewars.#{Config::CONFIG['DLEXT']}"
+ext_so = "ext/badgewars.#{RbConfig::CONFIG['DLEXT']}"
 ext_files = FileList[
   'ext/*.c',
   'ext/*.h',
