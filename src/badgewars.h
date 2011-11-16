@@ -1,28 +1,42 @@
-/* 
- * BADGEWARS: definition of the core structure 
+/*
+ * BADGEWARS: definition of the core structure
  */
- 
+
 /* Total number of cells in the core */
 #define BW_CORE_SIZE  8192
-#define BW_QUEUE_SIZE 1024
 
-/* Opcode definition (opcodes fit inside of CELLs) */
-typedef struct bw_opcode {
-    unsigned int op:   4; /* Operation to perform */  
-    unsigned int mode: 4; /* Addressing mode */
-    unsigned int lhs:  8; /* Left-hand operand */
-    unsigned int rhs:  8; /* Right-hand operand */
+/* Total number of entries in a queue */
+#define BW_QUEUE_SIZE 512
+
+/* Size of an op in bits */
+#define BW_OP_SIZE 4
+
+/* Size of an operand in bits */
+#define BW_OPERAND_SIZE 8
+
+/* Instruction definition (each instruction is a CELL) */
+typedef struct bw_instr {
+    unsigned int op:     BW_OP_SIZE;      /* Operation to perform */
+    unsigned int a_mode: 2;               /* Addressing mode for A operand */
+    unsigned int b_mode: 2;               /* Addressing mode for B operand */
+    int a_value:         BW_OPERAND_SIZE; /* Left-hand operand */
+    int b_value:         BW_OPERAND_SIZE; /* Right-hand operand */
 } CELL;
 
 /* Size of a "pointer" to a location in the core (should be a 16-bit type) */
 typedef unsigned short CELLPTR;
 
+/* A queue of addresses to warriors in the core. Each player has their own */
+typedef struct bw_queue {
+    CELLPTR slots[BW_QUEUE_SIZE];
+    unsigned int head, tail;
+} QUEUE;
+
 /* Structure of the BadgeWars world */
-struct bw_world {
+typedef struct bw_world {
     CELL core[BW_CORE_SIZE];
-    CELLPTR queue[BW_QUEUE_SIZE];
-    int queue_head, queue_tail;
-};
+    QUEUE p0_queue, p1_queue;
+} WORLD;
 
 enum MODE {
     MODE_DIRECT,    /* Operand points to offset from it's own address */
@@ -55,7 +69,7 @@ enum OP {
 
 /* Initialize the BadgeWars world */
 void bw_init(struct bw_world *world);
- 
+
 /* Tell the BadgeWars world to execute a single instruction */
 int bw_step(struct bw_world *world);
 
@@ -65,5 +79,5 @@ CELL *bw_peek(struct bw_world *world, CELLPTR addr);
 /* Modify the core state */
 void bw_poke(struct bw_world *world, CELLPTR addr, CELL value);
 
-/* Add a new process to the queue */
-void bw_spawn(struct bw_world *world, CELLPTR addr);
+/* Add a new process to the given player's queue */
+int bw_spawn(struct bw_world *world, CELLPTR addr, unsigned int player);
