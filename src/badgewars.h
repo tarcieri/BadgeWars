@@ -24,6 +24,13 @@ struct bw_world {
     int queue_head, queue_tail;
 };
 
+enum MODE {
+    MODE_DIRECT,    /* Operand points to offset from it's own address */
+    MODE_IMMEDIATE, /* Operand is the data for its own instruction    (#) */
+    MODE_INDIRECT,  /* Operand points to a cell that points elsewhere (@) */
+    MODE_PREDINDR   /* Same as above, except decrement the B operand  (<) */
+};
+
 enum OP {
     OP_DAT, /* data: kills the process */
     OP_MOV, /* move: copies data from one address to another */
